@@ -20,6 +20,7 @@ export interface Video {
   creatorName: string;
   createdAt: Date;
   status: 'processing' | 'completed' | 'failed';
+  aspectRatio: '16:9' | '9:16' | '1:1';
 }
 
 export interface VideoGeneration {

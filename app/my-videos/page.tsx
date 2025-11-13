@@ -2,6 +2,19 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { mockVideos, mockUser } from '@/lib/mock-data';
 
+const getAspectRatioClass = (aspectRatio: '16:9' | '9:16' | '1:1') => {
+  switch (aspectRatio) {
+    case '16:9':
+      return 'aspect-video';
+    case '1:1':
+      return 'aspect-square';
+    case '9:16':
+      return 'aspect-[9/16]';
+    default:
+      return 'aspect-video';
+  }
+};
+
 export default function MyVideosPage() {
   // Filter videos by current user
   const myVideos = mockVideos.filter((video) => video.creatorId === mockUser.id);
@@ -116,14 +129,14 @@ export default function MyVideosPage() {
             </Link>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="columns-1 md:columns-2 lg:columns-3 gap-4 space-y-4">
             {myVideos.map((video) => (
               <div
                 key={video.id}
-                className="bg-gray-900/50 border border-gray-800 rounded-xl overflow-hidden hover:border-white transition-all group"
+                className="bg-gray-900/50 border border-gray-800 rounded-xl overflow-hidden hover:border-white transition-all group break-inside-avoid mb-4"
               >
                 <Link href={`/video/${video.id}`}>
-                  <div className="relative aspect-video">
+                  <div className={`relative ${getAspectRatioClass(video.aspectRatio)}`}>
                     <Image
                       src={video.thumbnailUrl}
                       alt={video.title}

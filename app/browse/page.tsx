@@ -2,10 +2,23 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { mockVideos } from '@/lib/mock-data';
 
+const getAspectRatioClass = (aspectRatio: '16:9' | '9:16' | '1:1') => {
+  switch (aspectRatio) {
+    case '16:9':
+      return 'aspect-video';
+    case '1:1':
+      return 'aspect-square';
+    case '9:16':
+      return 'aspect-[9/16]';
+    default:
+      return 'aspect-video';
+  }
+};
+
 export default function BrowsePage() {
   const featuredVideo = mockVideos[0];
-  const trendingVideos = mockVideos.slice(0, 4);
-  const recentVideos = mockVideos.slice(2, 6);
+  const trendingVideos = mockVideos.slice(0, 8);
+  const recentVideos = mockVideos.slice(8, 16);
 
   return (
     <div className="min-h-screen bg-black">
@@ -58,14 +71,14 @@ export default function BrowsePage() {
       {/* Trending Videos */}
       <section className="px-4 md:px-12 py-10 max-w-7xl mx-auto">
         <h2 className="text-xl md:text-2xl font-bold mb-5 tracking-tight">Trending Now</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="columns-2 md:columns-4 gap-4 space-y-4">
           {trendingVideos.map((video) => (
             <Link
               key={video.id}
               href={`/video/${video.id}`}
-              className="group cursor-pointer"
+              className="group cursor-pointer block break-inside-avoid mb-4"
             >
-              <div className="relative aspect-video rounded-lg overflow-hidden mb-2.5">
+              <div className={`relative ${getAspectRatioClass(video.aspectRatio)} rounded-lg overflow-hidden mb-2.5`}>
                 <Image
                   src={video.thumbnailUrl}
                   alt={video.title}
@@ -92,14 +105,14 @@ export default function BrowsePage() {
       {/* Recent Uploads */}
       <section className="px-4 md:px-12 py-10 max-w-7xl mx-auto">
         <h2 className="text-xl md:text-2xl font-bold mb-5 tracking-tight">Recent Uploads</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="columns-2 md:columns-4 gap-4 space-y-4">
           {recentVideos.map((video) => (
             <Link
               key={video.id}
               href={`/video/${video.id}`}
-              className="group cursor-pointer"
+              className="group cursor-pointer block break-inside-avoid mb-4"
             >
-              <div className="relative aspect-video rounded-lg overflow-hidden mb-2.5">
+              <div className={`relative ${getAspectRatioClass(video.aspectRatio)} rounded-lg overflow-hidden mb-2.5`}>
                 <Image
                   src={video.thumbnailUrl}
                   alt={video.title}
@@ -126,14 +139,14 @@ export default function BrowsePage() {
       {/* All Videos */}
       <section className="px-4 md:px-12 py-10 max-w-7xl mx-auto">
         <h2 className="text-xl md:text-2xl font-bold mb-5 tracking-tight">All Videos</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+        <div className="columns-2 md:columns-4 lg:columns-5 gap-4 space-y-4">
           {mockVideos.map((video) => (
             <Link
               key={video.id}
               href={`/video/${video.id}`}
-              className="group cursor-pointer"
+              className="group cursor-pointer block break-inside-avoid mb-4"
             >
-              <div className="relative aspect-video rounded-lg overflow-hidden mb-2.5">
+              <div className={`relative ${getAspectRatioClass(video.aspectRatio)} rounded-lg overflow-hidden mb-2.5`}>
                 <Image
                   src={video.thumbnailUrl}
                   alt={video.title}
